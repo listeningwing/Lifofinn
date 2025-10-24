@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Install:
+# % cp /Applications/Lifofinn.app/Contents/Resources/lff /usr/local/bin/
+# % chmod +x /usr/local/bin/lff
+#
+# Usage:
+# a. Open file or folder and optionally output to stdout or file
+#   % lff file/folder/. -o stdout
+#   % lff file line -o stdout
+#
+#   % . current folder
+#   * file and folder can be full path
+#   * line: optional, open file and scroll to line
+#   * -o stdout or file: write to stdout or file when exit
+# 
+# b. Directly piping command output into Lifofinn.
+#   % lff -c - -o stdout
+#   % lff -c -o stdout
+#   % cat sample.txt | lifofinn -c -
+#   % make -f Makefile.me | lifofinn -c - -o stdout
+#   * -c -: read from stdin
+#   % cmdX | lff -c - -o stdout | cat
+#
+# Note: path should be accessible, file or folder itself
+# is or it's a child of any item in the accessible list.
+# Add accessible folder: Main menu "Settings..." → "Folders".
+#
+
+app=/Applications/Lifofinn.app/Contents/MacOS/Lifofinn
+export cwd=$(pwd)
+$app $@
+
