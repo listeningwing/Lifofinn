@@ -189,17 +189,11 @@ def testFunctions():
     #result = viewUnicodeString(string)
     #print(result)
     
-    
     string = """
-    All human beings are born free and equal in \n
-	dignity and rights. They are endowed with reason and conscience \n
-	and should act towards on another in a spirit of brotherhood. \n
-	すべての人間は、生まれながらにして自由であり、かつ、尊厳と権利と について平等である。 \n
-	人間は、理性と良心とを授けられており、互いに同胞の精神をもって行動しなければならない。 \n
-	มนุษย์ทั้งหลายเกิดมามีอิสระและเสมอภาคกันในเกียรติศักด[เกียรติศักดิ์]และสิทธิ \n
-	ต่างมีเหตุผลและมโนธรรม และควรปฏิบัติต่อกันด้วยเจตนารมณ์แห่งภราดรภาพ \n
-	모든 인간은 태어날 때부터 자유로우며 그 존엄과 권리에 있어 동등하다. \n
-	인간은 천부적으로 이성과 양심을 부여받았으며 서로 형제애의 정신으로 행동하여야 한다. \n
+    Write your code and syntax checking and run code and debugging immediately \n
+	from within the editor, regardless they're written with JS, TS, Python, PHP, \n
+	Ruby, Lua, Perl, AWK, Tcl, Go, Dart, Java, OC, Clojure, Kotlin, Swift, Rust, Erlang, \n
+	Elixir, OCaml, Haskell, ..., almost any programming language.\n
 	"""
    
    
