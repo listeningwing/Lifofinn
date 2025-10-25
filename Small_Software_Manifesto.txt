@@ -66,13 +66,13 @@ following:
 
 C++ and others have more pitfalls than C. There is not existing a perfect 
 programming language, absolutely safe programming language in the world to 
-guarantee the safety and reliability of software system, safety and reliability 
-depends on people, not the programming language or system itself.  
+guarantee the safety and reliability of software system, safety and 
+reliability depends on people, not the programming language or system itself.  
 
 
 First known how to write close and free and then try open and malloc, ensure 
 clean first and then do something is the philosophy and bits of C programming, 
-also the philosophy of a nature life, a person of culture. This rule also 
+also the philosophy of a nature life, a person of culture. This rule is also 
 suitable to other languages. First known how to write functional component 
 (console utilities instead of GUI) and then try add user interface to it is
 an important missing rule for most of software developers. less is better than 
