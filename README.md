@@ -4,29 +4,29 @@ Enjoy editing code with an ultra small code editor.
 
 Fav features
 ==============
-* Seamlessly integrated with shell, syntax checking and run code instantly.
-* Fast indexing big codebase for autocompletion and jumping to definition.
-* Index tokens across different languages for fast typing and jumping.
-* High performance searching with Perl regular expression and file filters.
+* Fast open file and scroll to line from command line.
+* Immediately syntax checking, run code and debugging without complex boring configurations.
+* Fast indexing big codebase across different languages for autocompletion and jumping.
+* High performance searching with Perl regular expression and smart file filters.
 * Edit multiple version of a project side by side in parallel editing mode.
-* View realtime background output with cool transparent UI.
-* Show colour diff with editing actions instantly.
-* Save changes with diff operation and restore particular changes by patch operation.
+* View realtime background output with transparent UI.
+* Instantly show coloured changes with editing actions.
 * Import pre-parsed tokens for efficient programming.
-* Cache every searching result for fast locating code lines.
-* Efficiently manage working on files across quit, relaunch and different projects.
-* Programmingly generate file list and text blocks for fast jumping and editing.
+* Cache every searched result for fast locating code lines.
+* Efficiently manage working on files across quit, relaunch and project switching.
+* Programmatically generate file list and text blocks for fast jumping and editing.
 * Supports almost all common programming language and document types.
-* Print current document to beautiful syntax coloured pdf file or paper.
+* Print current document to beautiful syntax coloured pdf file or paper.<br>
 ...
 
-Write your code and syntax checking and run code and debugging immediately from within the editor, regardless they're written with JS, TS, Python, PHP, Ruby, Lua, Perl, AWK, Tcl, Go, Dart, Java, OC, Clojure, Kotlin, Swift, Rust, Erlang, Elixir, OCaml, Haskell, ..., almost any programming language.
 
-Dedicated in terseness, practicality and efficient, LFF is not a so-said famous fashion stuff. From the design beginning, LFF is already outstanding all those floated bulky code editors! But unfortunately, people only know eat those prompt feeds on their mouth without independent thinking to find things by themselves! Immediately run and debugging almost any programming language without complex boring configuration!
+Write your code and syntax checking and run code and debugging immediately from within the editor, regardless they're written with JS, TS, Python, PHP, Ruby, Lua, Perl, AWK, Tcl, Go, Dart, Java, OC, Clojure, Kotlin, Scala, Swift, Rust, Erlang, Elixir, OCaml, Haskell, ..., almost any programming language.
 
-Lifofinn is more than just another code editor, but a highly scriptable text editor, have significant unique features, easily scripting the editor with almost any imagined functions with your favourite programming languages. Instantly interact programming environment, checking syntax errors, compile and runtime errors immediately and fast jumping to error lines, while writing, debugging and refactoring your code, immediately test, run and deploy from within the editor. Side-by-side editing with symbol indexes, bookmarks, searched results and instant changes. Interactive debugger for stepping through code, inspecting variables, viewing call stacks, and allows direct execution of shell commands and shell scripts within the editor, easily integrate with any type of external programs and scripts to automate common development tasks, such as git, ssh, sftp and AI client agent. Rapid support a new language or document format, indexing and highlighting symbols, formatting and debugging etc.
+Lifofinn is more than just another code editor, but a highly scriptable text editor with significant unique features, an instantly interact programming environment with built-in console, user can efficiently correct syntax and compile errors by directly edit configurations and scripts that used for compile, build and run within the editor. Easily scripting with almost any imagined functions with your favourite programming languages, immediately checking syntax errors, compile and runtime errors and fast jumping to error lines, while writing, debugging and refactoring your code, immediately test, run and deploy from within the editor. Side-by-side editing with symbol indexes, bookmarks, searched results and instant changes. Interactive debugger for stepping through code, inspecting variables, view call stacks, and allows direct execution of shell commands and shell scripts within the editor, easily integrate with any external programs, AI code assistant and scripts to automate development tasks, and rapidly support a new language or document format, indexing and highlighting symbols, formatting and debugging.
 
-Lifofinn, serious-small and friendly code editor, code runner and debugger, aka. LFF, pronounced [еlf-fi], the name means a fire bird that can rebirth and rise again from the ashes, or a joke meaning, Lifo-finn, a Finnish last in, and first out with a subtle scorn. This tiny dev tool was originally developed to provide a native scripting language debugging environment that seamlessly integrated with C and C++, designedly made for Lua and mruby development at the beginning. After years of development, since 2019, this gumption editor already supports debugging code for almost any programming language. An extremely small code editor is the design goal of Lifofinn to pursue, and also the design philosophy of this unique efficient utility. This app is designed for efficient programming, makes programming feels light, simple and free. It not only has an efficient code navigation and call routines tracing ability but also has a very flexible design that helps user to extend it to support special development requirements in a comfortable and efficient way.
+Programmatically used as a stream based component like traditional Unix command line utility, run non-interactively as a file system and text manipulation utility. Full programmable text editor, syntax highlighting, code runner, code formatter and debugger for almost any programming language, edit files with the power of scripting languages!
+
+Lifofinn, serious-small and friendly code editor, code runner and debugger, aka. LFF, pronounced [еlf-fi], Lifo-finn, Finn last in, first out, to remember the spell of the name. This tiny dev tool was originally developed to provide a native scripting language debugging environment that seamlessly integrated with C and C++, designedly made for Lua and mruby development at the beginning. After years of development, since 2019, this gumption editor already supports debugging code for almost any programming language. An extremely small code editor is the design goal of Lifofinn to pursue, and also the design philosophy of this unique utility. This app is designed for efficient programming, makes programming feels light, simple and free. It not only has an efficient code navigation and call routines tracing ability but also has a very flexible design that helps user to extend it to support special development requirements in a comfortable and efficient way (recent distribution of Lifofinn becomes 2x bigger than past versions, because it's an universal binary that compatible with Silicon Mac).
 
 
 App Store link
