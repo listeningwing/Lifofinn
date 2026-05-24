@@ -1,4 +1,4 @@
-//#!/usr/bin/env node
+#!/usr/bin/env node
 //# -*- coding: utf-8 -*-
 
 /*
@@ -27,7 +27,7 @@ const accesscode = '***';
 const net = require('net');
 const client = new net.Socket();
 let rawArray = [];
-
+let timer = null;
 
 function makeRequst(msgtype, data, args){
     requst = `{"msgtype": "${msgtype}", "accesscode": "${accesscode}", "data": "${data}", "args": "${args}"}`
@@ -38,6 +38,13 @@ function makeRequst(msgtype, data, args){
 // send message to LFF, message must ends with '\r\n'
 function sendRequst(sock, string){
     sock.write(string + '\r\n'); 
+};
+
+function destroyTimer(timer){
+	if (timer !== null) {
+       clearTimeout(timer);
+       timer = null;
+    }
 };
 
 
@@ -69,6 +76,7 @@ function processRequsts(sock){
           // instantly show program generated local graph or other file, or remote url
           // associated resource in the built-in browser.
           //let req = makeRequst('openURL', 'https://bing.com', '');
+          //let req = makeRequst('openURL', 'https://google.com', '');
           //let req = makeRequst('openURL', '/Users/yeung/Desktop/small_software_manifesto.txt', '');
           //sendRequst(sock, req);
           
@@ -84,15 +92,25 @@ function processRequsts(sock){
           sendRequst(sock, req);
           
     
-          /*
           //show a message box
-          req = makeRequst('showMessage', testString, '');
-          sendRequst(sock, req);
-          
-          //show a yes/no selection box
-          //req = makeRequst('showYesNoBox', 'title from js', '');
+          //req = makeRequst('showMessage', testString, '');
           //sendRequst(sock, req);
-          */
+          
+           //show a yes/no selection box
+           req = makeRequst('showYesNoBox', 'title from js', '');
+           sendRequst(sock, req);
+          
+           destroyTimer (timer);
+           timer = setTimeout(() => {
+                 console.log("timer out, no response from LFF.");
+                 //timeout
+                 destroyTimer(timer);
+                 client.end(); // end this time session
+                 
+           }, 5000);
+
+           // "Destroy" the timer before it triggers
+           //destroyTimer(timer);
           
           
           // a. ***, placeholder, data length can't be 0
@@ -162,7 +180,13 @@ client.on('data', (data) => {
 				  else if(object.msgtype === "dbOperation"){
 					   if(object.args === "4")
 					      client.end(); // end this time session
+				  }else if(object.msgtype === "showYesNoBox"){
+					   destroyTimer (timer);
+					   console.log(`LFF return: ${object.result}`);
+					   client.end();
 				  }
+           
+           
 			  } catch (err) {
                   if(i == blocks.length-2){
                        rawArray.push(raw);
@@ -187,16 +211,16 @@ client.on('error', (err) => {
 });
 
 
-//console.log(process.argv);
 const myArgs = process.argv.slice(2);
-connect(HOST, myArgs[0]);
+if(myArgs.length > 0) connect(HOST, myArgs[0]);
+else console.log('please provide the port number.');
 
 
 //1. directly edit this file in LFF.
 //2. write a shell script with the following content.
 //3. chmod +x /full/path/of/the/script, make the file executable.
 //4. LFF: Command  → Start JSON Server
-//5. run the script from within the editor.
+//5. or directly run the script from within the editor.
 
 /*
 #!/bin/bash
@@ -204,10 +228,8 @@ connect(HOST, myArgs[0]);
 cd ~/Desktop/Test # or other place
 # fetch full path of node
 node = `which node`
-node client.js 42321 # tested under node v20
-
-#42321: port number, LFF listening on, printed in console when start the server.
+node client.js 42321 # tested with node v20
+42321: port number, LFF listening on, printed in console when start the server.
 */
-
 
 
