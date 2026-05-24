@@ -26,7 +26,7 @@ const accesscode = '***';
 
 const net = require('net');
 const client = new net.Socket();
-const rawArray = [];
+let rawArray = [];
 
 
 function makeRequst(msgtype, data, args){
@@ -58,14 +58,20 @@ function processRequsts(sock){
           //2. isIgnoreFile
           //3. load root item in workspace
           //4. remove root item in workspace
-	      let req = makeRequst('fileOperation', '/Users/yeung/Desktop/奈良桜/mcp_agent.js', '3');
-          sendRequst(sock, req);
+	      //let req = makeRequst('fileOperation', '/Users/yeung/Desktop/奈良桜/mcp_agent.js', '3');
+          //sendRequst(sock, req);
           
           
           // openFile, args=line number, optional
 	      // let req = makeRequst('openFile', '/Users/yeung/Desktop/iOS/Makefile', '20');
           // sendRequst(sock, req);
-           
+    
+          // instantly show program generated local graph or other file, or remote url
+          // associated resource in the built-in browser.
+          //let req = makeRequst('openURL', 'https://bing.com', '');
+          //let req = makeRequst('openURL', '/Users/yeung/Desktop/small_software_manifesto.txt', '');
+          //sendRequst(sock, req);
+          
           
           //1. show the text in console.
           //2. insert the text at current cursor position.
@@ -73,8 +79,9 @@ function processRequsts(sock){
           //4. append the text to end of current file.
           //5. insert the text at the beginning of current file.
           //6. create a new temporary file with the text.
-          //let req = makeRequst('textOperation', testString, '2');
-          //sendRequst(sock, req);
+          //7. show the text content in built-in browser.
+          let req = makeRequst('textOperation', testString, '7');
+          sendRequst(sock, req);
           
     
           /*
