@@ -13,8 +13,8 @@
 //  Purpose: 
 //  this file provide protocol for client side scripting Lifofinn (LFF) that  
 //  can be easily integrated with AI code assistant, CLI chat bot, and 
-//  Model Context Protocol (MCP) client, the communication use normal TCP socket
-//  with JSON format message, this protocol is independent of programming language,
+//  Model Context Protocol (MCP) client, the communication use normal TCP based
+//  JSON format message, this protocol is independent of programming language,
 //  although this prototype implemented with JavaScript, but user can scripting
 //  LFF with other languages, such as Python, Ruby, Java, PHP, etc.  
 //
@@ -43,8 +43,9 @@ function sendRequst(sock, string){
 
 
 // Note: 
-// LFF will automatically decode file path and text string that contains Unicode representations, 
-// e.g., convert '\U3059\U3079\U3066\U306e\U4eba\U9593...' to 'すべての人間は...'.
+// a. LFF will automatically decode file path and text string that contains Unicode representations,
+//    e.g., convert '\U3059\U3079\U3066\U306e\U4eba\U9593...' to 'すべての人間は...'.
+// b. Some data field in message from LFF was encoded with base64.
 function processRequsts(sock){
 	const testString = "すべての人間は、生まれながらにして自由であり、かつ、尊厳と権利と について平等である。" + 
 	     "มนุษย์ทั้งหลายเกิดมามีอิสระและเสมอภาคกันในเกียรติศักด[เกียรติศักดิ์]และสิทธิ" +
@@ -66,22 +67,17 @@ function processRequsts(sock){
           // sendRequst(sock, req);
            
           
-          
-          //1. show text in console
-          //2. insert text at current cursor position. 
-          //3. replace current selection with data.
-          //4. append to end of current file.
-          //5. insert text at the beginning of current file.
+          //1. show the text in console.
+          //2. insert the text at current cursor position.
+          //3. replace current selection with the text.
+          //4. append the text to end of current file.
+          //5. insert the text at the beginning of current file.
           //6. create a new temporary file with the text.
-          
-          
           //let req = makeRequst('textOperation', testString, '2');
           //sendRequst(sock, req);
           
-          
-          
+    
           /*
-          
           //show a message box
           req = makeRequst('showMessage', testString, '');
           sendRequst(sock, req);
@@ -92,20 +88,22 @@ function processRequsts(sock){
           */
           
           
-          //***, placeholder, data length can't be 0
-          //fetch path of currentFile and cursorLocation currentSelection
+          // a. ***, placeholder, data length can't be 0
+          // b. current selection encoded with base64
+          // fetch path of current file, cursor location, and current selection
           // req = makeRequst('currentFileInfo', '***', '');
           // sendRequst(sock, req);
+    
           
           //1. fetchRootUrls
           //2. cleanRootItems
           //3. fetchAccessibleList, note: accessible list + root urls = all accessible paths
           //4. listBookmarks
           //5. fetchRecentList
-          //***, placeholder, data length can't be 0
+          //a. ***, placeholder, data length can't be 0
+          //b. please decode "line brief" with base64 when listBookmarks()
           //let req = makeRequst('dbOperation', '***', '5');
           //  sendRequst(sock, req);
-
           
 
           
@@ -125,15 +123,17 @@ function connect(host, port){
 
 
 
-// When data is received from the server (the echoed message)
+// When data is received from the server, each block ends with '\r\n'
 client.on('data', (data) => {
-	  let raw = data.toString(); //TODO: join data together and separate with '\r\n' into blocks
+      //TODO: join data together and separate into blocks
+	  let raw = data.toString();
       // console.log(`raw from server: ${raw}`);
+      if(raw.length == 0) return;
       
       let text;
       if(rawArray.length > 0){
-	      rawArray.push(raw);
-	      text = rawArray.join("");
+          rawArray.push(raw);
+          text = rawArray.join("");
 	  }else{
 		  text = raw;
 	  }
@@ -142,7 +142,7 @@ client.on('data', (data) => {
       const blocks = text.split('\r\n'); 
       for (let i = 0; i < blocks.length; i++) {
 	        let jsonString = blocks[i];
-	        if(i == blocks.length) rawArray = [];
+	        if(i == blocks.length-2) rawArray = []; //last block
 	        try {
 				  const object = JSON.parse(jsonString);
 				  console.log(`return message: ${blocks}`);
@@ -152,16 +152,14 @@ client.on('data', (data) => {
 					   let req = makeRequst('showYesNoBox', 'Title from JS', '');
 					   sendRequst(client, req);
 				  }
-				  
 				  else if(object.msgtype === "dbOperation"){
 					   if(object.args === "4")
 					      client.end(); // end this time session
 				  }
-					  
-				  
 			  } catch (err) {
-				  if(i == blocks.length)
-				      rawArray.push(raw);
+                  if(i == blocks.length-2){
+                       rawArray.push(raw);
+                  }
 			  }
        } 
     
@@ -189,18 +187,19 @@ connect(HOST, myArgs[0]);
 
 //1. directly edit this file in LFF.
 //2. write a shell script with the following content.
-//3. chmod +x /full/path/of/the/script, make the file executable. 
-//4. run the script from within the editor.
+//3. chmod +x /full/path/of/the/script, make the file executable.
+//4. LFF: Command  → Start JSON Server
+//5. run the script from within the editor.
 
 /*
 #!/bin/bash
 
-cd ~/Desktop # or other place
+cd ~/Desktop/Test # or other place
 # fetch full path of node
 node = `which node`
-node client.js 42321 
+node client.js 42321 # tested under node v20
 
-#42321: port number, LFF listening on, printed in console when start the server
+#42321: port number, LFF listening on, printed in console when start the server.
 */
 
 
