@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-//# -*- coding: utf-8 -*-
+
 
 /*
 #    __   _ ___     ____
@@ -9,6 +9,7 @@
 # The ultra small code editor.
 #
 */
+
 
 //  Purpose: 
 //  this file provide protocol for client side scripting Lifofinn (LFF) that  
@@ -26,23 +27,30 @@ const accesscode = '***';
 
 const fs = require('fs');
 const net = require('net');
-const client = new net.Socket();
+let client = new net.Socket();
 let rawArray = [];
 let timer = null;
-
+let connectionClosed = false;
 
 function makeRequst(msgtype, data, args){
     requst = `{"msgtype": "${msgtype}", "accesscode": "${accesscode}", "data": "${data}", "args": "${args}"}`
     return requst;
 }
 
+
 function makeWebRequst(msgtype, mimetype, encoding, baseurl, data){
-    requst = `{"msgtype": "${msgtype}", "accesscode": "${accesscode}", "MIMEType": "${mimetype}", "Encoding": "${encoding}", "BaseURL": "${baseurl}", "data": "${data}",  }`
+    requst = `{"msgtype": "${msgtype}", "accesscode": "${accesscode}", ` +
+    `"MIMEType": "${mimetype}", "Encoding": "${encoding}", "BaseURL": "${baseurl}", "data": "${data}",  }`
     return requst;
 }
 
+
 // send message to LFF, message must ends with '\r\n'
 function sendRequst(sock, string){
+	if(connectionClosed) {
+	    client = new net.Socket();
+	    sock = client;
+	}
     sock.write(string + '\r\n');
 };
 
@@ -76,6 +84,7 @@ function processRequsts(sock){
           
           
           // open file in the text editor, args=line number, optional
+          // *** Note: args = -1, goto end of the file
 	      // let req = makeRequst('openFile', '/Users/yeung/Desktop/iOS/Makefile', '20');
           // sendRequst(sock, req);
 
@@ -98,7 +107,7 @@ function processRequsts(sock){
           //sendRequst(sock, req);
           
 
-          //instantly show program generated raw data of graph in the built-in browser.
+          //instantly show program generated raw data of graph or other web content in the built-in browser.
           //MIMEType: (e.g., "text/plain", "text/html", "image/bmp", "image/jpeg", "image/png", "application/pdf",  "image/svg+xml")
           //    Word: application/msword (.doc) Excel: application/vnd.ms-excel (.xls) PowerPoint: application/vnd.ms-powerpoint (.ppt)
           //Encoding: text encoding, usually "utf-8" or "utf-16", be empty for non-text data.
@@ -147,6 +156,7 @@ function processRequsts(sock){
           //3. fetchAccessibleList, note: accessible list + root urls = all accessible paths
           //4. listBookmarks
           //5. fetchRecentList
+          //Note:
           //a. ***, placeholder, data length can't be 0
           //b. please decode "line brief" with base64 when listBookmarks()
           //let req = makeRequst('dbOperation', '***', '5');
@@ -163,11 +173,17 @@ function processRequsts(sock){
 function connect(host, port){
 	client.connect(port, host, () => {
 		 console.log('connected to Lifofinn.\n');
-		 
 		 processRequsts(client);
 	});
 };
 
+
+function onConnectionClosed(){
+    if(connectionClosed) return;
+    connectionClosed = true;
+    client = null;
+    console.log('Connection closed');
+};
 
 
 // When data is received from the server, each block ends with '\r\n'
@@ -222,8 +238,11 @@ client.on('data', (data) => {
 
 // When the connection is closed
 client.on('close', () => {
-     console.log('Connection closed');
-     //    
+    onConnectionClosed();
+});
+
+client.on('end', () => {
+    onConnectionClosed();
 });
 
 
@@ -242,7 +261,8 @@ else console.log('please provide the port number.');
 //2. write a shell script with the following content.
 //3. chmod +x /full/path/of/the/script, make the file executable.
 //4. LFF: Command  → Start JSON Server
-//5. run the script from within the editor.
+//5a. run this script from within the editor by directly call connect().
+//5b. run shell script from command line.
 
 /*
 #!/bin/bash
