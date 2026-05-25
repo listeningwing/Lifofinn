@@ -24,24 +24,30 @@ const PORT = 42321;
 const HOST = '127.0.0.1'; // Localhost
 const accesscode = '***';
 
+const fs = require('fs');
 const net = require('net');
 const client = new net.Socket();
 let rawArray = [];
 let timer = null;
+
 
 function makeRequst(msgtype, data, args){
     requst = `{"msgtype": "${msgtype}", "accesscode": "${accesscode}", "data": "${data}", "args": "${args}"}`
     return requst;
 }
 
+function makeWebRequst(msgtype, mimetype, encoding, baseurl, data){
+    requst = `{"msgtype": "${msgtype}", "accesscode": "${accesscode}", "MIMEType": "${mimetype}", "Encoding": "${encoding}", "BaseURL": "${baseurl}", "data": "${data}",  }`
+    return requst;
+}
 
 // send message to LFF, message must ends with '\r\n'
 function sendRequst(sock, string){
-    sock.write(string + '\r\n'); 
+    sock.write(string + '\r\n');
 };
 
 function destroyTimer(timer){
-	if (timer !== null) {
+    if (timer !== null) {
        clearTimeout(timer);
        timer = null;
     }
@@ -49,7 +55,7 @@ function destroyTimer(timer){
 
 
 
-// Note: 
+// Note:
 // a. LFF will automatically decode file path and text string that contains Unicode representations,
 //    e.g., convert '\U3059\U3079\U3066\U306e\U4eba\U9593...' to 'すべての人間は...'.
 // b. Some data field in message from LFF was encoded with base64.
@@ -69,14 +75,15 @@ function processRequsts(sock){
           //sendRequst(sock, req);
           
           
-          // openFile, args=line number, optional
+          // open file in the text editor, args=line number, optional
 	      // let req = makeRequst('openFile', '/Users/yeung/Desktop/iOS/Makefile', '20');
           // sendRequst(sock, req);
-    
-          // instantly show program generated local graph or other file, or remote url
-          // associated resource in the built-in browser.
+
+          // open local file or remote url associated resource in the built-in browser.
+          //*** Note: just input full path of the file for local file
           //let req = makeRequst('openURL', 'https://bing.com', '');
           //let req = makeRequst('openURL', 'https://google.com', '');
+          //let req = makeRequst('openURL', 'https://stackoverflow.com', '');
           //let req = makeRequst('openURL', '/Users/yeung/Desktop/small_software_manifesto.txt', '');
           //sendRequst(sock, req);
           
@@ -87,31 +94,46 @@ function processRequsts(sock){
           //4. append the text to end of current file.
           //5. insert the text at the beginning of current file.
           //6. create a new temporary file with the text.
-          //7. show the text content in built-in browser.
-          let req = makeRequst('textOperation', testString, '7');
-          sendRequst(sock, req);
+          //let req = makeRequst('textOperation', testString, '1');
+          //sendRequst(sock, req);
           
+
+          //instantly show program generated raw data of graph in the built-in browser.
+          //MIMEType: (e.g., "text/plain", "text/html", "image/bmp", "image/jpeg", "image/png", "application/pdf",  "image/svg+xml")
+          //    Word: application/msword (.doc) Excel: application/vnd.ms-excel (.xls) PowerPoint: application/vnd.ms-powerpoint (.ppt)
+          //Encoding: text encoding, usually "utf-8" or "utf-16", be empty for non-text data.
+          //BaseURL:  a valid URL required, default is "http://localhost".
+          //Note:
+          //***  a. "Encoding" must be empty to indicate the data is base64 encoded binary data.
+          //***  b. if a file already saved on disk (local files), more reliable way is to use "openURL".
+          const bitmap = fs.readFileSync('sad.webp'); // Read binary data
+          // Convert binary data to base64 encoded string
+          const base64Image = Buffer.from(bitmap).toString('base64');
+          let req = makeWebRequst('showInBrowser', 'image/webp', '', '', base64Image);
+          sendRequst(sock, req);
+
     
           //show a message box
           //req = makeRequst('showMessage', testString, '');
           //sendRequst(sock, req);
           
-           //show a yes/no selection box
+/*
+          //show a yes/no selection box
            req = makeRequst('showYesNoBox', 'title from js', '');
            sendRequst(sock, req);
-          
+           
            destroyTimer (timer);
            timer = setTimeout(() => {
                  console.log("timer out, no response from LFF.");
-                 //timeout
                  destroyTimer(timer);
                  client.end(); // end this time session
                  
            }, 5000);
-
            // "Destroy" the timer before it triggers
            //destroyTimer(timer);
-          
+    
+*/
+
           
           // a. ***, placeholder, data length can't be 0
           // b. current selection encoded with base64
@@ -220,7 +242,7 @@ else console.log('please provide the port number.');
 //2. write a shell script with the following content.
 //3. chmod +x /full/path/of/the/script, make the file executable.
 //4. LFF: Command  → Start JSON Server
-//5. or directly run the script from within the editor.
+//5. run the script from within the editor.
 
 /*
 #!/bin/bash
@@ -231,5 +253,6 @@ node = `which node`
 node client.js 42321 # tested with node v20
 42321: port number, LFF listening on, printed in console when start the server.
 */
+
 
 
