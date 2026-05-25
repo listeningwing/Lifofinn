@@ -63,6 +63,28 @@ function destroyTimer(timer){
 
 
 
+//dynamically add symbol references in LFF
+function addTokenIndex(sock){
+    const path = "/Users/yeung/Desktop/assistant/client.js";
+    //records key pairs: symbol as key, line number as value
+    const aString = `{"isAccessible": "97", "stackoverflow.com": "114", "Buffer.from": "139" }`
+    const base64String = Buffer.from(aString).toString('base64');
+    let req = makeRequst('addTokenIndex', path, base64String);
+    sendRequst(sock, req);
+};
+
+
+//dynamically remove symbol references in LFF
+function removeTokenIndex(sock){
+    const path = "/Users/yeung/Desktop/assistant/client.js";
+    //records is array
+    const aString = `{"isAccessible", "stackoverflow.com", "Buffer.from" }`
+    const base64String = Buffer.from(aString).toString('base64');
+    let req = makeRequst('removeTokenIndex', path, base64String);
+    sendRequst(sock, req);
+};
+
+
 // Note:
 // a. LFF will automatically decode file path and text string that contains Unicode representations,
 //    e.g., convert '\U3059\U3079\U3066\U306e\U4eba\U9593...' to 'すべての人間は...'.
@@ -161,7 +183,14 @@ function processRequsts(sock){
           //b. please decode "line brief" with base64 when listBookmarks()
           //let req = makeRequst('dbOperation', '***', '5');
           //  sendRequst(sock, req);
-          
+    
+
+           //Usage:
+           //a. make the symbol selected, right-click in LFF text editor, fast jumping to the symbol referenced file line.
+           //b. make the symbol selected, right-click in LFF text editor, Indexing  →  "Remove".
+           addTokenIndex(sock);
+           //removeTokenIndex(sock);
+           
 
           
 	     
