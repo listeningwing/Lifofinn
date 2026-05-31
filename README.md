@@ -5,6 +5,7 @@ Enjoy editing code with an ultra small code editor.
 Fav features
 ==============
 * Fast open file and scroll to line from command line.
+* Record live log from remote device or server for fast inspect and fix runtime issues.
 * Immediately syntax checking, run code and debugging without complex boring configurations.
 * Fast indexing big codebase across different languages for autocompletion and jumping.
 * High performance searching with Perl regular expression and smart file filters.
