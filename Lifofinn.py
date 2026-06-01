@@ -739,9 +739,10 @@ def main():
     print(logFile)
     
 
-
+#how to run:
+#% export cwd=`pwd`
+#% python3 Lifofinn.py
 if __name__ == "__main__":
     main()
-
 
 
