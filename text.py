@@ -245,7 +245,9 @@ def testFunctions():
 def main():
     testFunctions()
 
-
+#how to run:
+#% export cwd=`pwd`
+#% python3 text.py
 if __name__ == "__main__":
     main()
     
