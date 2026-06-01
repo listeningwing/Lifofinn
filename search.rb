@@ -320,6 +320,9 @@ end
 
 #TODO: please refer lifofinn.py for more functions
 
+#how to run:
+#% export cwd=`pwd`
+#% ruby search.rb
 initEnv()
 runTests()
 
