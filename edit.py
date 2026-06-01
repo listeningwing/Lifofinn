@@ -489,7 +489,9 @@ def main():
     testEditFile()
     
 
-
+#how to run:
+#% export cwd=`pwd`
+#% python3 edit.py
 if __name__ == "__main__":
     main()
 
