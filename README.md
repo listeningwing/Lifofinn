@@ -32,7 +32,7 @@ Lifofinn, serious-small and friendly code editor, code runner and debugger, aka.
 
 App Store link
 ================
-https://apps.apple.com/us/app/lifofinn/id1573709962?mt=12
+https://apps.apple.com/us/app/lifofinn/id6772522155
 
 
 Screenshots
